@@ -1,5 +1,7 @@
 # first-vue-project
-
+# Parcial 2 computo:
+## 1. Isaac Natanael Medrano Romero - U20230689
+## 2. Anibal Josue Campos Andrade - U20230770
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
