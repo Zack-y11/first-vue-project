@@ -17,4 +17,7 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: {
+    allowedHosts: ["95bfa4d2-df31-4a39-b2a5-e9828e6bc02f-00-2p3i9b2pjo6h1.kirk.replit.dev"]
+  }
 })
