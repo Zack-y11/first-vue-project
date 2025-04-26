@@ -149,7 +149,6 @@ onMounted(() => {
           </div>
         </div>
 
-
         <div class="mt-6 w-full">
           <h3 class="font-bold text-xl mb-4 text-gray-700">Stats:</h3>
           <div v-for="stat in pokemon.stats" :key="stat.stat.name" class="mb-3">
