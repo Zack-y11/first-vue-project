@@ -41,7 +41,6 @@ onMounted(() => {
     <div
       class="container mx-auto p-8 max-w-lg bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg shadow-lg"
     >
-      <!-- Search Section -->
       <div class="mb-6">
         <button
           @click="getRandomPokemon()"
@@ -51,7 +50,6 @@ onMounted(() => {
         </button>
       </div>
 
-      <!-- Error Message -->
       <div
         v-if="error"
         class="text-red-500 text-center p-4 bg-red-50 rounded-lg mb-4 border border-red-200"
@@ -59,7 +57,6 @@ onMounted(() => {
         {{ error }}
       </div>
 
-      <!-- Pokemon Details -->
       <div
         v-if="pokemon && pokemon.sprites"
         class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300"
@@ -71,9 +68,10 @@ onMounted(() => {
               :alt="pokemon.name"
               class="w-56 h-56 object-contain hover:scale-110 transition duration-300"
             />
+            <p class="text-red-500" v-if="isShiny && pokemon.sprites?.front_shiny == null">No shiny version</p>
             <button
               @click="isShiny = !isShiny"
-              class="px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300"
+              class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300"
             >
               {{ isShiny ? 'Show Normal' : 'Show Shiny' }}
             </button>
@@ -82,7 +80,6 @@ onMounted(() => {
             {{ pokemon.name }}
           </h2>
 
-          <!-- Types -->
           <div class="mt-4 flex gap-3">
             <span
               v-for="(t, index) in tipo"
@@ -107,7 +104,6 @@ onMounted(() => {
             </span>
           </div>
 
-          <!-- Stats -->
           <div class="mt-6 w-full">
             <h3 class="font-bold text-xl mb-4 text-gray-700">Stats:</h3>
             <div

@@ -4,8 +4,10 @@ import PokemonByType from "./components/PokemonByType.vue";
 </script>
 
 <template>
-  <randomPokemon/>
-  <PokemonByType />
+  <div class="">
+    <randomPokemon/>
+    <PokemonByType />
+  </div>
 </template>
 
 
