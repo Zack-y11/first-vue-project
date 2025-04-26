@@ -7,6 +7,7 @@ import axios from "axios";
 
 const pokemon = ref(null);
 const error = ref("");
+const isShiny = ref(false);
 
 const tipo = computed(() => {
   return pokemon.value?.types?.map((tipo) => tipo.type.name) || [];
@@ -88,10 +89,28 @@ onMounted(() => {
     >
       <div class="flex flex-col items-center">
         <img
-          :src="pokemon.sprites.front_default"
-          :alt="pokemon.name"
-          class="w-56 h-56 object-contain hover:scale-110 transition duration-300"
-        />
+              :src="isShiny ? pokemon.sprites.front_shiny : pokemon.sprites.front_default"
+              :alt="pokemon.name"
+              class="w-56 h-56 object-contain hover:scale-110 transition duration-300"
+            />
+            <div v-if="isShiny" class="mb-4">
+              <p v-if="!pokemon.sprites?.front_shiny" class="text-red-500 bg-red-100 p-2 rounded-lg border border-red-200 text-center">
+                This Pokémon does not have a shiny version available
+              </p>
+              <button
+                @click="isShiny = false"
+                class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300"
+              >
+                Show Normal Version
+              </button>
+            </div>
+            <button
+              v-else
+              @click="isShiny = true"
+              class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-yellow-600 transition duration-300"
+            >
+              Show Shiny Version
+            </button>
         <h2 class="text-3xl font-bold mt-4 capitalize text-gray-800">
           {{ pokemon.name }}
         </h2>
