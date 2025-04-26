@@ -37,6 +37,7 @@ const fetchPokemonsByType = async () => {
 <template>
   <div class="container mx-auto p-8 max-w-lg bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg shadow-lg">
     <div class="mb-6">
+      <h3 class="mb-4">Ejercicio 2: seleccionar por tipo</h3>
       <select
         v-model="selectedType"
         @change="fetchPokemonsByType"
