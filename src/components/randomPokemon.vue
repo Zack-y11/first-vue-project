@@ -29,98 +29,124 @@ const getRandomPokemon = async () => {
     console.log(err);
   }
 };
+// cambiar el color de fondo dependiendo del tipo de pokemon
+const backgroundColorClass = computed(()=>{
+    console.log(tipo.value[0])
+    const primaryType = tipo.value[0];
+    switch(primaryType) {
+    case 'grass': return 'bg-green-300';
+    case 'fire': return 'bg-red-300';
+    case 'water': return 'bg-blue-300';
+    case 'electric': return 'bg-yellow-300';
+    case 'poison': return 'bg-purple-300';
+    case 'bug': return 'bg-lime-300';
+    case 'flying': return 'bg-sky-300';
+    case 'ground': return 'bg-amber-300';
+    case 'fairy': return 'bg-pink-300';
+    case 'fighting': return 'bg-orange-300';
+    case 'psychic': return 'bg-fuchsia-300';
+    case 'rock': return 'bg-stone-300';
+    case 'ghost': return 'bg-indigo-300';
+    case 'ice': return 'bg-cyan-300';
+    case 'dragon': return 'bg-violet-300';
+    case 'dark': return 'bg-neutral-300';
+    case 'steel': return 'bg-zinc-300';
+    case 'normal': return 'bg-gray-300';
+    default: return 'bg-gray-300';
+  }
+})
 
-// Load random pokemon on component mount
 onMounted(() => {
   getRandomPokemon();
 });
 </script>
 
 <template>
+  <div
+    class="container mx-auto p-8 max-w-lg rounded-lg shadow-lg"
+    :class="backgroundColorClass"
+  >
+    <div class="mb-6">
+      <button
+        @click="getRandomPokemon()"
+        class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-4 rounded-lg hover:from-blue-600 hover:to-blue-700 w-full transition duration-300 font-semibold"
+      >
+        Generate a random pokemon
+      </button>
+    </div>
+
     <div
-      class="container mx-auto p-8 max-w-lg bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg shadow-lg"
+      v-if="error"
+      class="text-red-500 text-center p-4 bg-red-50 rounded-lg mb-4 border border-red-200"
     >
-      <!-- Search Section -->
-      <div class="mb-6">
-        <button
-          @click="getRandomPokemon()"
-          class="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-4 rounded-lg hover:from-blue-600 hover:to-blue-700 w-full transition duration-300 font-semibold"
-        >
-          Generate a random pokemon
-        </button>
-      </div>
+      {{ error }}
+    </div>
 
-      <!-- Error Message -->
-      <div
-        v-if="error"
-        class="text-red-500 text-center p-4 bg-red-50 rounded-lg mb-4 border border-red-200"
-      >
-        {{ error }}
-      </div>
+    <div
+      v-if="pokemon && pokemon.sprites"
+      class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300"
+    >
+      <div class="flex flex-col items-center">
+        <img
+          :src="pokemon.sprites.front_default"
+          :alt="pokemon.name"
+          class="w-56 h-56 object-contain hover:scale-110 transition duration-300"
+        />
+        <h2 class="text-3xl font-bold mt-4 capitalize text-gray-800">
+          {{ pokemon.name }}
+        </h2>
 
-      <!-- Pokemon Details -->
-      <div
-        v-if="pokemon && pokemon.sprites"
-        class="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition duration-300"
-      >
-        <div class="flex flex-col items-center">
-          <img
-            :src="pokemon.sprites.front_default"
-            :alt="pokemon.name"
-            class="w-56 h-56 object-contain hover:scale-110 transition duration-300"
-          />
-          <h2 class="text-3xl font-bold mt-4 capitalize text-gray-800">
-            {{ pokemon.name }}
-          </h2>
-
-          <!-- Types -->
-          <div class="mt-4 flex gap-3">
-            <span
-              v-for="(t, index) in tipo"
-              :key="index"
-              class="px-4 py-2 rounded-full text-sm font-bold shadow-sm"
-              :class="{
-                'bg-green-200 text-green-800': t === 'grass',
-                'bg-red-200 text-red-800': t === 'fire',
-                'bg-blue-200 text-blue-800': t === 'water',
-                'bg-yellow-200 text-yellow-800': t === 'electric',
-                'bg-purple-200 text-purple-800': t === 'poison',
-                'bg-gray-200 text-gray-800': ![
-                  'grass',
-                  'fire',
-                  'water',
-                  'electric',
-                  'poison',
-                ].includes(t),
-              }"
-            >
-              {{ t }}
-            </span>
+        <div class="mt-4 flex gap-3">
+          <span
+            v-for="(t, index) in tipo"
+            :key="index"
+            class="px-4 py-2 rounded-full text-sm font-bold shadow-sm"
+            :class="{
+              'bg-green-200 text-green-800': t === 'grass',
+              'bg-red-200 text-red-800': t === 'fire',
+              'bg-blue-200 text-blue-800': t === 'water',
+              'bg-yellow-200 text-yellow-800': t === 'electric',
+              'bg-purple-200 text-purple-800': t === 'poison',
+              'bg-gray-200 text-gray-800': ![
+                'grass',
+                'fire',
+                'water',
+                'electric',
+                'poison',
+              ].includes(t),
+            }"
+          >
+            {{ t }}
+          </span>
+        </div>
+        <div class="mt-4 flex gap-6 text-gray-600">
+          <div class="flex items-center">
+            <span class="font-semibold">Weight:</span>
+            <span class="ml-2">{{ pokemon.weight / 10 }} kg</span>
           </div>
+          <div class="flex items-center">
+            <span class="font-semibold">Height:</span>
+            <span class="ml-2">{{ pokemon.height / 10 }} m</span>
+          </div>
+        </div>
 
-          <!-- Stats -->
-          <div class="mt-6 w-full">
-            <h3 class="font-bold text-xl mb-4 text-gray-700">Stats:</h3>
-            <div
-              v-for="stat in pokemon.stats"
-              :key="stat.stat.name"
-              class="mb-3"
-            >
-              <div class="flex justify-between text-sm mb-1">
-                <span class="capitalize font-semibold">{{
-                  stat.stat.name
-                }}</span>
-                <span class="font-medium">{{ stat.base_stat }}/200</span>
-              </div>
-              <div class="w-full bg-gray-200 rounded-full h-3">
-                <div
-                  class="bg-gradient-to-r from-blue-400 to-blue-600 h-3 rounded-full transition-all duration-500"
-                  :style="{ width: `${(stat.base_stat / 200) * 100}%` }"
-                ></div>
-              </div>
+
+        <div class="mt-6 w-full">
+          <h3 class="font-bold text-xl mb-4 text-gray-700">Stats:</h3>
+          <div v-for="stat in pokemon.stats" :key="stat.stat.name" class="mb-3">
+            <div class="flex justify-between text-sm mb-1">
+              <span class="capitalize font-semibold">{{ stat.stat.name }}</span>
+              <span class="font-medium">{{ stat.base_stat }}/500</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-3">
+              <div
+                class="bg-gradient-to-r from-blue-400 to-blue-600 h-3 rounded-full transition-all duration-500"
+                :style="{ width: `${(stat.base_stat / 500) * 100}%` }"
+              ></div>
             </div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 </template>
